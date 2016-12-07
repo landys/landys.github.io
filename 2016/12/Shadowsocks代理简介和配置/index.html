@@ -1,0 +1,730 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="shadowsocks," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Know Why" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Shadowsocks简介Shadowsocks，中文翻译为影梭，是一个开源的轻量级的代理工具，可提供安全稳定的Socks5代理。该项目由国人clowwindy开源。至于当时和breakwa11的争议以及喝茶事件，各位可自行google。
+Shadowsocks分为服务端和客户端。服务端安装在提供网络流量出口的服务器上，客户端安装在本地或代理用户所在网络环境中的机器上，提供Socks5代理服务。目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shadowsocks代理简介和配置">
+<meta property="og:url" content="http://landys.github.io/2016/12/Shadowsocks代理简介和配置/index.html">
+<meta property="og:site_name" content="Know Why">
+<meta property="og:description" content="Shadowsocks简介Shadowsocks，中文翻译为影梭，是一个开源的轻量级的代理工具，可提供安全稳定的Socks5代理。该项目由国人clowwindy开源。至于当时和breakwa11的争议以及喝茶事件，各位可自行google。
+Shadowsocks分为服务端和客户端。服务端安装在提供网络流量出口的服务器上，客户端安装在本地或代理用户所在网络环境中的机器上，提供Socks5代理服务。目">
+<meta property="og:updated_time" content="2016-12-07T14:20:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shadowsocks代理简介和配置">
+<meta name="twitter:description" content="Shadowsocks简介Shadowsocks，中文翻译为影梭，是一个开源的轻量级的代理工具，可提供安全稳定的Socks5代理。该项目由国人clowwindy开源。至于当时和breakwa11的争议以及喝茶事件，各位可自行google。
+Shadowsocks分为服务端和客户端。服务端安装在提供网络流量出口的服务器上，客户端安装在本地或代理用户所在网络环境中的机器上，提供Socks5代理服务。目">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://landys.github.io/2016/12/Shadowsocks代理简介和配置/"/>
+
+
+
+
+
+  <title> Shadowsocks代理简介和配置 | Know Why </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-87740547-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Know Why</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://landys.github.io/2016/12/Shadowsocks代理简介和配置/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Landys">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Know Why">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Know Why" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Shadowsocks代理简介和配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-06T16:54:13+08:00">
+                2016-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/Shadowsocks代理简介和配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/Shadowsocks代理简介和配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Shadowsocks简介"><a href="#Shadowsocks简介" class="headerlink" title="Shadowsocks简介"></a>Shadowsocks简介</h1><p><a href="https://github.com/shadowsocks/shadowsocks" target="_blank" rel="external">Shadowsocks</a>，中文翻译为<code>影梭</code>，是一个开源的轻量级的代理工具，可提供安全稳定的Socks5代理。该项目由国人<a href="https://github.com/clowwindy" target="_blank" rel="external">clowwindy</a>开源。至于当时和<a href="https://github.com/breakwa11" target="_blank" rel="external">breakwa11</a>的争议以及喝茶事件，各位可自行google。</p>
+<p>Shadowsocks分为服务端和客户端。服务端安装在提供网络流量出口的服务器上，客户端安装在本地或代理用户所在网络环境中的机器上，提供Socks5代理服务。目前客户端已经支持多种平台，既包括Windows，Linux，Mac OS X等PC系统，也包括iOS，Android等移动平台，也就是说配置一个代理，可以非常方便地为多种终端设备使用，有一种毕其功于一役的痛快感觉。服务端和客户端之间通过类似于Socks5但更简单且加密的协议进行通讯，同时支持TCP和UDP连接。</p>
+<h2 id="Shadowsocks-VS-SSH-Tunnel"><a href="#Shadowsocks-VS-SSH-Tunnel" class="headerlink" title="Shadowsocks VS SSH Tunnel"></a>Shadowsocks VS SSH Tunnel</h2><p>Shadowsocks相对于SSH Tunnel在穿越Firewall的优势在于：</p>
+<ol>
+<li><p>SSH Tunnel创建隧道使用的是长连接，一旦受到墙的干扰，连接会被中断需要重连。而Shadowsocks连接是实时模式，只有在有数据访问的时候才会创建隧道，并且不需要保持连接，其抗干扰和丢包容错的能力都更强，更适合国情。</p>
+</li>
+<li><p>SSH Tunnel的连接特征相对明显，容易被Firewall通过特征分析进行定向干扰；相对而言Shadowsocks没有明显特征码，被干扰的可能性更小。</p>
+</li>
+</ol>
+<h1 id="Shadowsocks安装和配置"><a href="#Shadowsocks安装和配置" class="headerlink" title="Shadowsocks安装和配置"></a>Shadowsocks安装和配置</h1><h2 id="服务端安装和配置"><a href="#服务端安装和配置" class="headerlink" title="服务端安装和配置"></a>服务端安装和配置</h2><p>由于Shadowsocks基于python实现，可以方便地使用<code>pip</code>安装。至于如何安装python环境和pip包管理工具，可自行google。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip <span class="keyword">install</span> shadowsocks</div></pre></td></tr></table></figure>
+<p>服务端的运行也非常简单，可以直接一句命令行启动，具体见<a href="https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" target="_blank" rel="external">文档</a>。也可以通过配置文件的方式来设置运行参数。配置文件可放在任意目录，这里保存为<code>~/shadowsocks/config.json</code>。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"server"</span>:<span class="string">"remote-server-ip"</span>,</div><div class="line">    <span class="attr">"server_port"</span>:<span class="number">7777</span>,</div><div class="line">    <span class="attr">"local_address"</span>:<span class="string">"127.0.0.1"</span>,</div><div class="line">    <span class="attr">"local_port"</span>:<span class="number">1080</span>,</div><div class="line">    <span class="attr">"password"</span>:<span class="string">"your-password"</span>,</div><div class="line">    <span class="attr">"timeout"</span>:<span class="number">300</span>,</div><div class="line">    <span class="attr">"method"</span>:<span class="string">"aes-256-cfb"</span>,</div><div class="line">    <span class="attr">"fast_open"</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">"workers"</span>:<span class="number">1</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>配置内容非常直观，注册修改<code>server</code>和<code>password</code>，属性含义可参考<a href="https://github.com/shadowsocks/shadowsocks/wiki/Configuration-via-Config-File" target="_blank" rel="external">官方文档</a>。接着以后台运行的方式启动：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssserver -c ~/shadowsocks/config<span class="selector-class">.json</span> -d start</div></pre></td></tr></table></figure>
+<p>停止服务：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssserver -c ~/shadowsocks/<span class="built_in">config</span>.json -d <span class="built_in">stop</span></div></pre></td></tr></table></figure>
+<h2 id="客户端安装和配置"><a href="#客户端安装和配置" class="headerlink" title="客户端安装和配置"></a>客户端安装和配置</h2><p>Shadowsocks针对不同平台有不同的图形界面客户端。PC端客户端支持基于PAC的自动代理模式，有<a href="https://github.com/shadowsocks/shadowsocks-iOS/releases" target="_blank" rel="external">MAC版</a>，<a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="external">Windows版</a>等。移动端ios/android可以在各自应用市场下载，支持分应用的代理设置。各种配置都非常直观，这里就不多说了。</p>
+<p>除了图形界面客户端，本人更喜欢直接在命令行里启动<code>sslocal</code>来启动本机的socks5代理。这里以Mac OS为例。</p>
+<p>同样使用pip安装。客户端命令为<code>sslocal</code>。可以直接使用与服务端相同的配置文件运行，也可以用<code>nohup</code>后台运行。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">pip install shadowsocks</div><div class="line">sslocal -c ~/shadowsocks/config<span class="selector-class">.json</span></div><div class="line">nohup sslocal -c ~/shadowsocks/config<span class="selector-class">.json</span> &amp;</div></pre></td></tr></table></figure>
+<p>此时一切就绪，其他应用就可以使用Socks5代理<code>127.0.0.1:1080</code>，最终通过服务端出口来访问网络了。对于Chrome，我们可以使用扩展<code>SwitchyOmega</code>来自动直连或使用代理。</p>
+<p>不过对于Mac更方便的是使用<a href="https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html" target="_blank" rel="external">Launchd</a>实现开机自启动。<code>Launchd</code>分为Launch Daemons和Agents，前者为系统级，在系统启动时自动运行，后者为用户级，在用户登录时自动运行。只要在系统特定目录创建Property List文件，系统就会自动加载运行。</p>
+<p>这里我们使用Launch Agent，创建<code>plist</code>文件<code>/Library/LaunchAgents/local.shadowsocks.proxy.plist</code>，内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="php"><span class="meta">&lt;?</span>xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span><span class="meta">?&gt;</span></span></div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>local.shadowsocks.proxy<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/bin/sslocal<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>-c<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>config.json<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardOutPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>info.log<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardErrorPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>error.log<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>WorkingDirectory<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/Jinde/shadowsocks<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>注意正确配置<code>ProgramArguments</code>和<code>WorkingDirectory</code>。<code>WorkingDirectory</code>为Shadowsocks配置文件所在目录。之后每次重启，<code>sslocal</code>都会自动运行。完毕。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          
+        </div>
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/12/Shadowsocks代理简介和配置/"
+     data-title="Shadowsocks代理简介和配置"
+     data-content=""
+     data-url="http://landys.github.io/2016/12/Shadowsocks代理简介和配置/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/Shadowsocks代理简介和配置/"
+           data-title="Shadowsocks代理简介和配置" data-url="http://landys.github.io/2016/12/Shadowsocks代理简介和配置/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Landys" />
+          <p class="site-author-name" itemprop="name">Landys</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/landys" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://stackoverflow.com/users/2749114/landys" target="_blank" title="StackOverflow">
+                  
+                    <i class="fa fa-fw fa-stackoverflow"></i>
+                  
+                  StackOverflow
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Shadowsocks简介"><span class="nav-number">1.</span> <span class="nav-text">Shadowsocks简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Shadowsocks-VS-SSH-Tunnel"><span class="nav-number">1.1.</span> <span class="nav-text">Shadowsocks VS SSH Tunnel</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shadowsocks安装和配置"><span class="nav-number">2.</span> <span class="nav-text">Shadowsocks安装和配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端安装和配置"><span class="nav-number">2.1.</span> <span class="nav-text">服务端安装和配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端安装和配置"><span class="nav-number">2.2.</span> <span class="nav-text">客户端安装和配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Landys</span>
+</div>
+
+
+<div class="powered-by">
+  <a class="theme-link" href="https://github.com/landys" target="_blank">GitHub</a>
+</div>
+
+<div class="theme-info">
+  <a class="theme-link" href="https://stackoverflow.com/users/2749114/landys" target="_blank">StackOverflow</a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"landys"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
