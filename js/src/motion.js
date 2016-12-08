@@ -78,7 +78,7 @@ $(document).ready(function () {
   sidebarToggleLines.push(sidebarToggleLine3rd);
 
   var SIDEBAR_WIDTH = '320px';
-  var SIDEBAR_DISPLAY_DURATION = 200;
+  var SIDEBAR_DISPLAY_DURATION = 50;
 
   var sidebarToggleMotion = {
     toggleEl: $('.sidebar-toggle'),
@@ -129,7 +129,7 @@ $(document).ready(function () {
             $('.sidebar .motion-element').velocity(
               'transition.slideRightIn',
               {
-                stagger: 50,
+                stagger: 10,
                 drag: true,
                 complete: function () {
                   self.sidebarEl.trigger('sidebar.motion.complete');
@@ -196,7 +196,7 @@ $(document).ready(function () {
       $brand.size() > 0 && sequence.push({
         e: $brand,
         p: {opacity: 1},
-        o: {duration: 200}
+        o: {duration: 50}
       });
 
       NexT.utils.isMist() && hasElement([$logoLineTop, $logoLineBottom]) &&
@@ -269,7 +269,7 @@ $(document).ready(function () {
 
       function postMotion () {
         var postMotionOptions = window.postMotionOptions || {
-            stagger: 100,
+            stagger: 20,
             drag: true
           };
         postMotionOptions.complete = function () {
